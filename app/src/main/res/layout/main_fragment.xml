@@ -14,4 +14,17 @@
         android:background="#3b5998"
         android:layout_margin="8dp"
         android:textColor="#ffffffff" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Previous Messages"
+        android:onClick="view_prev_msgs"
+        android:layout_margin="8dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subscribe"
+        android:onClick="subscribe_channel"
+        android:layout_margin="8dp"/>
 </LinearLayout>

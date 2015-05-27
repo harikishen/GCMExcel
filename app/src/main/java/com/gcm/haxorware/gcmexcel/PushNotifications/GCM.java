@@ -30,8 +30,10 @@ public class GCM {
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
-    static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";;
-    static final String SERVER_URL = "http://doylefermi.x2y2.net/default.php";
+    static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";
+    //static final String SERVER_URL = "http://exceltest.comuv.com/register.php";
+    //static final String SERVER_URL = "http://doylefermi.x2y2.net/default.php";
+    static final String SERVER_URL = "http://doylefermi.x20.in/register.php";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static String acc = "";
     public String msg = "";
@@ -39,7 +41,7 @@ public class GCM {
     String SENDER_ID = "1019787135827";
     static final String TAG = "GCMDemo";
     TextView mDisplay;
-    GoogleCloudMessaging gcm;
+
     AtomicInteger msgId = new AtomicInteger();
     SharedPreferences prefs;
     Context context;
@@ -47,21 +49,20 @@ public class GCM {
     String email="";
     String title="";
     String name="";
+
     public GCM(Context context){
         this.context=context;
     }
+
     public void gcmcheck()
-    {
+    {  Account[] accounts = AccountManager.get(context).getAccounts();
 
-
-
-        Account[] accounts = AccountManager.get(context).getAccounts();
-
-        acc= accounts[0].name;
+        /*acc= accounts[0].name;
         accn=acc.substring(0, acc.indexOf('@'));
-        name=accn;
-        email=acc;
-        gcm = GoogleCloudMessaging.getInstance(context);
+        name=accn;*/
+
+        email=MainActivity.preferences.getString("info", "");
+        MainActivity.gcm = GoogleCloudMessaging.getInstance(context);
         regid = getRegistrationId(context);
 
         if (regid=="") {    Toast.makeText(context, "Registering device...", Toast.LENGTH_SHORT).show();
@@ -88,12 +89,12 @@ public class GCM {
             @Override
             protected String doInBackground(Void... params) {
                 try {
-                    if (gcm == null) {
+                    if (MainActivity.gcm == null) {
 
-                        gcm = GoogleCloudMessaging.getInstance(context);
+                        MainActivity.gcm = GoogleCloudMessaging.getInstance(context);
                     }
 
-                    regid = gcm.register(SENDER_ID);
+                    regid = MainActivity.gcm.register(SENDER_ID);
                     Log.d("TEST",regid);
 
                     msg = "Device registered, registration ID=" + regid;
@@ -114,10 +115,18 @@ public class GCM {
                 Log.i(TAG, "registering device (regId = " + regid + ")");
                 String serverUrl = SERVER_URL;
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("regId", regid);
                 Log.d("fbid",MainActivity.preferences.getString("id",""));
-                params.put("name",MainActivity.preferences.getString("id",""));
-                params.put("email",email);
+
+                params.put("regId", regid);
+                //params.put("fb_id",MainActivity.preferences.getString("id",""));
+                params.put("name",MainActivity.preferences.getString("name",""));
+                params.put("email",MainActivity.preferences.getString("id",""));
+                    /* params.put("sim_name",MainActivity.sim_operator_Name);
+                     params.put("android_version",MainActivity.droid_version);
+                     params.put("phone_no",MainActivity.phone_no);
+                     params.put("dpi",MainActivity.phone_dpi);
+                     params.put("manuf",MainActivity.phone_manuf);
+                     params.put("model",MainActivity.phone_model);*/
 
                 long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
                 for (int i = 1; i <= MAX_ATTEMPTS; i++) {

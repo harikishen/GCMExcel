@@ -19,7 +19,7 @@
         <intent-filter>
             <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
-            <category android:name="com.example.test" />
+            <category android:name="com.gcm.haxorware.gcmexcel" />
         </intent-filter>
     </receiver>
 
@@ -37,13 +37,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service android:name="com.gcm.haxorware.gcmexcel.PushNotifications.GcmBroadcastReceiver"></service>
+        <activity
+            android:name=".HistoryDatabase.MainHistory"
+            android:label="MainHistory" >
+        </activity>
+        <activity
+            android:name=".Subscription.MainSubscription"
+            android:label="MainSubscription" >
+        </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
 
     </application>
-    <service android:name="com.gcm.haxorware.gcmexcel.PushNotifications.GcmBroadcastReceiver" >  </service>
+
+
 
 </manifest>
