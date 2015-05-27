@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.gcm.haxorware.gcmexcel.MainActivity;
-import com.gcm.haxorware.gcmexcel.PushNotifications.GCM;
 import com.gcm.haxorware.gcmexcel.R;
 import com.github.gorbin.asne.core.SocialNetwork;
 import com.github.gorbin.asne.core.SocialNetworkManager;

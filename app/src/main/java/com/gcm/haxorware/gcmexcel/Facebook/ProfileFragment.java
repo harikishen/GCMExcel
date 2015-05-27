@@ -4,14 +4,9 @@ package com.gcm.haxorware.gcmexcel.Facebook;
  * Created by haxorware on 25/5/15.
  */
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,25 +20,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gcm.haxorware.gcmexcel.MainActivity;
-import com.gcm.haxorware.gcmexcel.PushNotifications.GCM;
 import com.gcm.haxorware.gcmexcel.R;
 import com.github.gorbin.asne.core.SocialNetwork;
-import com.github.gorbin.asne.core.listener.OnPostingCompleteListener;
 import com.github.gorbin.asne.core.listener.OnRequestSocialPersonCompleteListener;
 import com.github.gorbin.asne.core.persons.SocialPerson;
 import com.github.gorbin.asne.facebook.FacebookSocialNetwork;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
 
 public class ProfileFragment extends Fragment implements OnRequestSocialPersonCompleteListener {
     private String message = "Need simple social networks integration? Check this lbrary:";
@@ -127,15 +109,13 @@ public class ProfileFragment extends Fragment implements OnRequestSocialPersonCo
         SharedPreferences.Editor editor = MainActivity.preferences.edit();
         editor.putString("id",socialPerson.id);
         editor.putString("name",socialPerson.name);
-        editor.putString("info",socialPerson.toString());
-        editor.putString("gcmid","");
+        editor.putString("info", socialPerson.toString());
+        editor.putString("gcmid", "");
 
         editor.apply();
-        GCM mGCM=new GCM(getActivity());
-        mGCM.gcmcheck();
 
 
-
+        MainActivity.gcmcheck();
         fbid = MainActivity.preferences.getString("id", "");
         fbname = MainActivity.preferences.getString("name", "");
         fbinfo = MainActivity.preferences.getString("info", "");

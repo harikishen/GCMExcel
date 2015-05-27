@@ -2,9 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gcm.haxorware.gcmexcel" >
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.INTERNET"
+        android:maxSdkVersion="22"
+        />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"
+        android:maxSdkVersion="22"
+        />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"
+        android:maxSdkVersion="22"
+        />
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
@@ -13,21 +19,22 @@
         android:maxSdkVersion="22" />
     <uses-permission android:name="com.gcm.haxorware.gcmexcel.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <receiver
-        android:name="com.gcm.haxorware.gcmexcel.PushNotifications.GcmBroadcastReceiver"
-        android:permission="com.google.android.c2dm.permission.SEND" >
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-            <category android:name="com.example.test" />
-        </intent-filter>
-    </receiver>
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+    <receiver
+        android:name="gcm_push.GcmBroadcastReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND" >
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+            <category android:name="com.gcm.haxorware.gcmexcel" />
+        </intent-filter>
+    </receiver>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -42,8 +49,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
+            
 
     </application>
-    <service android:name="com.gcm.haxorware.gcmexcel.PushNotifications.GcmBroadcastReceiver" >  </service>
+    <service android:name="com.gcm.haxorware.gcmexcel.gcm_push.GcmBroadcastReceiver" >  </service>
 
 </manifest>

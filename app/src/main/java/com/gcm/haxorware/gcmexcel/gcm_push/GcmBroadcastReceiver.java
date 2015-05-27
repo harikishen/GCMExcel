@@ -1,4 +1,4 @@
-package com.gcm.haxorware.gcmexcel.PushNotifications;
+package com.gcm.haxorware.gcmexcel.gcm_push;
 
 import android.app.Activity;
 import android.app.Notification;
