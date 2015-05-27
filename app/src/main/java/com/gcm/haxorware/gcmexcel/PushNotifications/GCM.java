@@ -32,8 +32,8 @@ public class GCM {
     private static final String PROPERTY_APP_VERSION = "appVersion";
     static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";
     //static final String SERVER_URL = "http://exceltest.comuv.com/register.php";
-    //static final String SERVER_URL = "http://doylefermi.x2y2.net/default.php";
-    static final String SERVER_URL = "http://doylefermi.x20.in/register.php";
+    static final String SERVER_URL = "http://doylefermi.x2y2.net/default.php";
+    //static final String SERVER_URL = "http://doylefermi.x20.in/register.php";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static String acc = "";
     public String msg = "";
@@ -49,6 +49,7 @@ public class GCM {
     String email="";
     String title="";
     String name="";
+    GoogleCloudMessaging gcm;
 
     public GCM(Context context){
         this.context=context;
@@ -62,7 +63,7 @@ public class GCM {
         name=accn;*/
 
         email=MainActivity.preferences.getString("info", "");
-        MainActivity.gcm = GoogleCloudMessaging.getInstance(context);
+        gcm = GoogleCloudMessaging.getInstance(context);
         regid = getRegistrationId(context);
 
         if (regid=="") {    Toast.makeText(context, "Registering device...", Toast.LENGTH_SHORT).show();
@@ -83,18 +84,18 @@ public class GCM {
         return MainActivity.preferences;
     }
     private void registerInBackground() {
-
+        Log.d("TEST","registerInBackground");
         new AsyncTask<Void,Void,String>() {
 
             @Override
             protected String doInBackground(Void... params) {
                 try {
-                    if (MainActivity.gcm == null) {
-
-                        MainActivity.gcm = GoogleCloudMessaging.getInstance(context);
+                    if (gcm == null) {
+                        Log.d("TEST","inside async");
+                        gcm = GoogleCloudMessaging.getInstance(context);
                     }
 
-                    regid = MainActivity.gcm.register(SENDER_ID);
+                    regid = gcm.register(SENDER_ID);
                     Log.d("TEST",regid);
 
                     msg = "Device registered, registration ID=" + regid;
