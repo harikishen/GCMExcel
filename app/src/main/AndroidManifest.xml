@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gcm.haxorware.gcmexcel" >
 
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET"
         android:maxSdkVersion="22"
         />
@@ -12,28 +11,14 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"
         android:maxSdkVersion="22"
         />
-=======
-   
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="22" />
-
-    <uses-permission
-        android:name="com.google.android.c2dm.permission.RECEIVE"
-        android:maxSdkVersion="22" />
-    <uses-permission
-        android:name="android.permission.INTERNET"
-        android:maxSdkVersion="22" />
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
     <uses-permission
         android:name="android.permission.GET_ACCOUNTS"
         android:maxSdkVersion="22" />
     <uses-permission
         android:name="android.permission.WAKE_LOCK"
         android:maxSdkVersion="22" />
-    <uses-permission android:name="com.example.test.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.gcm.haxorware.gcmexcel.permission.C2D_MESSAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-<<<<<<< HEAD
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -50,26 +35,6 @@
         </intent-filter>
     </receiver>
 
-=======
-
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-
-	<receiver
-            android:name="com.gcm.haxorware.gcmexcel.PushNotifications.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="com.example.test" />
-            </intent-filter>
-        </receiver>
-
-
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -79,15 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-       
-        <activity
-            android:name=".HistoryDatabase.MainHistory"
-            android:label="MainHistory" >
-        </activity>
-        <activity
-            android:name=".Subscription.MainSubscription"
-            android:label="MainSubscription" >
-        </activity>
+
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -95,12 +52,6 @@
             
 
     </application>
-<<<<<<< HEAD
     <service android:name="com.gcm.haxorware.gcmexcel.gcm_push.GcmBroadcastReceiver" >  </service>
-=======
- 	
-	<service android:name="com.gcm.haxorware.gcmexcel.gcm_push.GcmBroadcastReceiver" >  </service>
-
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
 
 </manifest>

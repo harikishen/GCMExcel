@@ -8,9 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
-import android.util.Log;
 
-import com.gcm.haxorware.gcmexcel.HistoryDatabase.DatabaseHelper;
 import com.gcm.haxorware.gcmexcel.MainActivity;
 import com.gcm.haxorware.gcmexcel.R;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -26,25 +24,18 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
     NotificationCompat.Builder builder;
     Context ctx;
-    String gcmmsg="";
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d(TAG, "Started Receiver");
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
         ctx = context;
-        DatabaseHelper db = new DatabaseHelper(context);
         String messageType = gcm.getMessageType(intent);
         if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
             sendNotification("Send error: " + intent.getExtras().toString());
         } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             sendNotification("Deleted messages on server: " + intent.getExtras().toString());
         } else {
-            //gcmmsg=intent.getStringExtra("content");
-            gcmmsg=intent.getStringExtra("price");
-           // db.insertMsg(gcmmsg);
-            sendNotification(gcmmsg);
-
+            sendNotification(intent.getStringExtra("price"));
         }
         setResultCode(Activity.RESULT_OK);
     }
@@ -65,7 +56,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(ctx)
                         .setSmallIcon(R.drawable.common_signin_btn_icon_normal_light)
-                        .setContentTitle("Excel 2k15")
+                        .setContentTitle("Orissa Tourism")
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);
