@@ -1,40 +1,15 @@
-package com.gcm.haxorware.gcmexcel;
+package com.gcm.haxorware.gcmexcel.PushNotifications;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-<<<<<<< HEAD
 import android.os.AsyncTask;
-=======
-import android.os.Build;
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.FragmentManager;
-import android.os.Bundle;
-<<<<<<< HEAD
 import android.util.Log;
-=======
-import android.telephony.TelephonyManager;
-import android.util.DisplayMetrics;
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.gcm.haxorware.gcmexcel.Facebook.MainFragment;
-<<<<<<< HEAD
-=======
-import com.gcm.haxorware.gcmexcel.HistoryDatabase.MainHistory;
-import com.gcm.haxorware.gcmexcel.PushNotifications.GCM;
-import com.gcm.haxorware.gcmexcel.Subscription.MainSubscription;
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
+import com.gcm.haxorware.gcmexcel.MainActivity;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
@@ -48,125 +23,46 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
-public class MainActivity extends ActionBarActivity implements FragmentManager.OnBackStackChangedListener {
-    public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
-    private static ProgressDialog pd;
-    public static SharedPreferences preferences;
-<<<<<<< HEAD
+/**
+ * Created by harikishen on 5/26/15.
+ */
+public class GCM {
     public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
-    static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";;
+    static final String DISPLAY_MESSAGE_ACTION="com.example.test.DISPLAY_MESSAGE";
+    //static final String SERVER_URL = "http://exceltest.comuv.com/register.php";
     static final String SERVER_URL = "http://doylefermi.x2y2.net/default.php";
+    //static final String SERVER_URL = "http://doylefermi.x20.in/register.php";
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static String acc = "";
-    public static String msg = "";
+    public String msg = "";
     public static String accn = "";
-    static String SENDER_ID = "1019787135827";
+    String SENDER_ID = "1019787135827";
     static final String TAG = "GCMDemo";
-    static GoogleCloudMessaging gcm;
-    static Context context;
-    static AtomicInteger msgId = new AtomicInteger();
-    static SharedPreferences prefs;
-    static String regid="";
-    static String email="";
-    static String title="";
-    static String name="";
-=======
-    public static Context context;
-    public static String sim_operator_Name=null;
-    public static String droid_version=null;
-    public static String phone_no=null;
-    public static String phone_dpi=null;
-    public static String phone_manuf=null;
-    public static String phone_model=null;
->>>>>>> e34a52d63ea22e462e0e85c6cadaa0ef41744589
+    TextView mDisplay;
 
+    AtomicInteger msgId = new AtomicInteger();
+    SharedPreferences prefs;
+    Context context;
+    String regid="";
+    String email="";
+    String title="";
+    String name="";
+    GoogleCloudMessaging gcm;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        context = this;
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        sim_operator_Name=telephonyManager.getSimOperatorName();
-        droid_version = android.os.Build.VERSION.RELEASE;
-        phone_no=telephonyManager.getLine1Number();
-        phone_dpi=metrics.densityDpi+"dp";
-        phone_manuf= Build.MANUFACTURER;
-        phone_model=android.os.Build.PRODUCT;
-
-        if(sim_operator_Name==null){sim_operator_Name="null";}
-        if(phone_no==null){phone_no="null";}
-        if(phone_manuf==null){phone_manuf="null";}
-        if(phone_model==null){phone_model="null";}
-
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-        homeAsUpByBackStack();
-
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.container, new MainFragment()).commit();
-        }
-
+    public GCM(Context context){
+        this.context=context;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
+    public void gcmcheck()
+    {  Account[] accounts = AccountManager.get(context).getAccounts();
 
-    @Override
-    public void onBackStackChanged() {
-        homeAsUpByBackStack();
-    }
-
-    private void homeAsUpByBackStack() {
-        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-        if (backStackEntryCount > 0) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getSupportFragmentManager().popBackStack();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public static void showProgress(String message) {
-        pd = new ProgressDialog(context);
-        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        pd.setMessage(message);
-        pd.setCancelable(false);
-        pd.setCanceledOnTouchOutside(false);
-        pd.show();
-    }
-
-    public static void hideProgress() {
-        pd.dismiss();
-    }
-    public static void gcmcheck()
-    {
-
-
-
-        Account[] accounts = AccountManager.get(context).getAccounts();
-
-        acc= accounts[0].name;
+        /*acc= accounts[0].name;
         accn=acc.substring(0, acc.indexOf('@'));
-        name=accn;
-        email=acc;
+        name=accn;*/
+
+        email=MainActivity.preferences.getString("info", "");
         gcm = GoogleCloudMessaging.getInstance(context);
         regid = getRegistrationId(context);
 
@@ -175,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         }
 
     }
-    private static String getRegistrationId(Context context) {
+    private String getRegistrationId(Context context) {
         final SharedPreferences prefs = getGCMPreferences(context);
         String registrationId = prefs.getString(PROPERTY_REG_ID, "");
         if (registrationId.isEmpty()) {
@@ -184,18 +80,18 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
         }
         return registrationId;
     }
-    private static SharedPreferences getGCMPreferences(Context context) {
-        return preferences;
+    private SharedPreferences getGCMPreferences(Context context) {
+        return MainActivity.preferences;
     }
-    private static void registerInBackground() {
-
+    private void registerInBackground() {
+        Log.d("TEST","registerInBackground");
         new AsyncTask<Void,Void,String>() {
 
             @Override
             protected String doInBackground(Void... params) {
                 try {
                     if (gcm == null) {
-
+                        Log.d("TEST","inside async");
                         gcm = GoogleCloudMessaging.getInstance(context);
                     }
 
@@ -220,10 +116,18 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
                 Log.i(TAG, "registering device (regId = " + regid + ")");
                 String serverUrl = SERVER_URL;
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("regId", regid);
                 Log.d("fbid",MainActivity.preferences.getString("id",""));
-                params.put("name",MainActivity.preferences.getString("id",""));
-                params.put("email",email);
+
+                params.put("regId", regid);
+                //params.put("fb_id",MainActivity.preferences.getString("id",""));
+                params.put("name",MainActivity.preferences.getString("name",""));
+                params.put("email",MainActivity.preferences.getString("id",""));
+                    /* params.put("sim_name",MainActivity.sim_operator_Name);
+                     params.put("android_version",MainActivity.droid_version);
+                     params.put("phone_no",MainActivity.phone_no);
+                     params.put("dpi",MainActivity.phone_dpi);
+                     params.put("manuf",MainActivity.phone_manuf);
+                     params.put("model",MainActivity.phone_model);*/
 
                 long backoff = BACKOFF_MILLI_SECONDS + random.nextInt(1000);
                 for (int i = 1; i <= MAX_ATTEMPTS; i++) {
@@ -300,31 +204,11 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
 
         }.execute();}
 
-    private static void storeRegistrationId(Context context, String regId) {
+    private void storeRegistrationId(Context context, String regId) {
         final SharedPreferences prefs = getGCMPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PROPERTY_REG_ID, regId);
         editor.commit();
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(SOCIAL_NETWORK_TAG);
-        if (fragment != null) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-    public void view_prev_msgs(View view) {
-        Intent intent = new Intent(this, MainHistory.class);
-        startActivity(intent);
-    }
-
-    public void subscribe_channel(View view) {
-        Intent intent = new Intent(this, MainSubscription.class);
-        startActivity(intent);
     }
 
 }
