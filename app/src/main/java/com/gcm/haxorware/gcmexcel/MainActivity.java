@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements FragmentManager.O
     public static String phone_dpi=null;
     public static String phone_manuf=null;
     public static String phone_model=null;
-    public static GoogleCloudMessaging gcm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

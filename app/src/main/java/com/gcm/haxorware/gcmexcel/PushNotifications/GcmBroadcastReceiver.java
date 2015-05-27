@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.util.Log;
 
 import com.gcm.haxorware.gcmexcel.HistoryDatabase.DatabaseHelper;
 import com.gcm.haxorware.gcmexcel.MainActivity;
@@ -29,9 +30,10 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "Started Receiver");
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(context);
         ctx = context;
-        //DatabaseHelper db = new DatabaseHelper(context);
+        DatabaseHelper db = new DatabaseHelper(context);
         String messageType = gcm.getMessageType(intent);
         if (GoogleCloudMessaging.MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
             sendNotification("Send error: " + intent.getExtras().toString());
@@ -40,7 +42,7 @@ public class GcmBroadcastReceiver extends WakefulBroadcastReceiver {
         } else {
             //gcmmsg=intent.getStringExtra("content");
             gcmmsg=intent.getStringExtra("price");
-            //db.insertMsg(gcmmsg);
+           // db.insertMsg(gcmmsg);
             sendNotification(gcmmsg);
 
         }
